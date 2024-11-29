@@ -6,7 +6,7 @@ const server = express();
 const PORT = process.env.PORT || 8080;
 
 server.get('/', (req, res) => {
-  res.send('Backend Minga Group 7!');
+  res.send('Backend Minga Group 5!');
 });
 
 server.listen(PORT, () => {
