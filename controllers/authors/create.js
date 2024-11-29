@@ -1,6 +1,6 @@
 import Author from '../../models/Author.js';
 
-let register = async (req, res, next) => {
+let create = async (req, res, next) => {
     try {
         let author = req.body;
         let newAuthor = await Author.create(author);
@@ -14,7 +14,7 @@ let register = async (req, res, next) => {
     }
 };
 
-let registerMany = async (req, res, next) => {
+let createMany = async (req, res, next) => {
     try {
         let authors = req.body;
         let allAuthors = await Author.insertMany(authors);
@@ -29,4 +29,4 @@ let registerMany = async (req, res, next) => {
     }
 };
 
-export { register, registerMany };
+export { create, createMany };

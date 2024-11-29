@@ -7,7 +7,7 @@ let schema = new Schema({
     website: { type: String, required: false },
     description: { type: String, required: true },
     photo: { type: String, required: true },
-    user_id: { type: Schema.Types.ObjectId, ref: 'users', required: true }, // Referencia a User
+    user_id: { type: Schema.Types.ObjectId, ref: 'users', required: true },
     active: { type: Boolean, required: true, default: true },
 }, {
     timestamps: true
