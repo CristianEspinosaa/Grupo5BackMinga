@@ -2,17 +2,19 @@ import Author from "../../models/Author.js";
 
 let allAuthors = async (req, res, next) => {
     try {
-        let all = await Author.find();
-
-        return res.status(200).json({
-            success: true,
-            message: "Authors retrieved successfully",
-            response: all
-        });
+        let author = await Author.find()
+        if (author) {
+            return res
+                .status(200)
+                .json({
+                    success: true,
+                    author
+                })
+        }
     } catch (error) {
-        next(error);
+        next(error)
     }
-};
+}
 
 let authorById = async (req, res, next) => {
     try {

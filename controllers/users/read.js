@@ -30,8 +30,7 @@ let userById = async (req, res, next) => {
                 success: true,
                 message: "User found successfully",
                 response: {
-                    email: user.email,
-                    photo: user.photo,
+                    user,                    
                 },
             });
         } else {
@@ -44,4 +43,4 @@ let userById = async (req, res, next) => {
     }
 };
 
-export { allUsers, userById };
+export { allUsers, userById};
