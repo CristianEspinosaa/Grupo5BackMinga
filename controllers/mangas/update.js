@@ -5,8 +5,8 @@ let updateManga = async (req, res, next) => {
         const { id } = req.params;
         const mangaData = req.body;
         let updatedManga = await Manga.findByIdAndUpdate(id, mangaData, {
-            new: true, // Retorna el documento actualizado
-            runValidators: true, // Ejecuta validaciones definidas en el modelo
+            new: true,
+            runValidators: true,
         });
 
         if (!updatedManga) {

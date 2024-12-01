@@ -43,4 +43,4 @@ let userById = async (req, res, next) => {
     }
 };
 
-export { allUsers, userById};
+export { allUsers, userById };

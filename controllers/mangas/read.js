@@ -1,11 +1,11 @@
 import Manga from "../../models/Manga.js";
 
 let allMangas = async (req, res, next) => {
-    try {        
-        const search = {};
-        const page = parseInt(req.query.page) || 1;
-        const limit = req.query.category_id || req.query.title ? 10 : 6;
-        const skip = (page - 1) * limit;
+    try {
+        let search = {};
+        let page = parseInt(req.query.page) || 1;
+        let limit = req.query.category_id || req.query.title ? 10 : 6;
+        let skip = (page - 1) * limit;
 
         if (req.query.category_id) {
             search.category_id = { $in: req.query.category_id.split(',') };
@@ -13,8 +13,8 @@ let allMangas = async (req, res, next) => {
         if (req.query.title) {
             search.title = new RegExp(req.query.title.trim(), 'i');
         }
-        
-        const mangas = await Manga.find(search)
+
+        let mangas = await Manga.find(search)
             .select('title cover_photo _id')
             .populate('category_id', 'name -_id')
             .sort({ title: 1 })
@@ -43,39 +43,74 @@ let allMangas = async (req, res, next) => {
 
 let mangaByAuthorId = async (req, res, next) => {
     try {
-        const search = {};
-        const page = parseInt(req.query.page) || 1;
-        const limit = req.query.category_id ? 10 : 6;
-        const skip = (page - 1) * limit;
+        let search = { author_id: req.params.id };
+        let page = parseInt(req.query.page) || 1;
+        let limit = req.query.category_id ? 10 : 6;
+        let skip = (page - 1) * limit;
 
         if (req.query.category_id) {
             search.category_id = { $in: req.query.category_id.split(',') };
         }
-        
-        let authorId = req.params.id;
-        let mangas = await Manga.find({ author_id: authorId })
+
+        let mangas = await Manga.find(search)
             .select('title cover_photo category_id author_id')
             .populate('author_id', 'name last_name -_id')
             .populate('category_id', 'name -_id')
             .sort({ title: 1 })
             .skip(skip)
             .limit(limit);
-        
-        if (mangas && mangas.length > 0) {
+
+        if (mangas.length > 0) {
             return res.status(200).json({
                 success: true,
                 message: "Mangas by author retrieved successfully.",
-                response: mangas
-            });
-        } else {
-            return res.status(404).json({
-                success: false,
-                message: "No mangas found for the given author"
+                response: mangas,
             });
         }
+        return res.status(404).json({
+            success: false,
+            message: "Mangas not found.",
+        });
+
     } catch (error) {
-        next(error);
+        next(error); 
     }
 };
 
-export { allMangas, mangaByAuthorId };
+let mangaByCompanyId = async (req, res, next) => {
+    try {
+        let search = { company_id: req.params.id };
+        let page = parseInt(req.query.page) || 1;
+        let limit = req.query.category_id ? 10 : 6;
+        let skip = (page - 1) * limit;
+
+        if (req.query.category_id) {
+            search.category_id = { $in: req.query.category_id.split(',') };
+        }
+
+        let mangas = await Manga.find(search)
+            .select('title cover_photo category_id company_id')
+            .populate('company_id', 'name -_id')
+            .populate('category_id', 'name -_id')
+            .sort({ title: 1 })
+            .skip(skip)
+            .limit(limit);
+
+        if (mangas.length > 0) {
+            return res.status(200).json({
+                success: true,
+                message: "Mangas by company retrieved successfully.",
+                response: mangas,
+            });
+        }
+        return res.status(404).json({
+            success: false,
+            message: "Mangas not found.",
+        });
+
+    } catch (error) {
+        next(error); 
+    }
+};
+
+export { allMangas, mangaByAuthorId, mangaByCompanyId };
