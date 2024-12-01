@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import { allMangas, mangaByAuthorId } from "../controllers/mangas/read.js";
 import { create, createMany } from "../controllers/mangas/create.js";
 import { updateManga } from "../controllers/mangas/update.js";
 import { deleteManga } from "../controllers/mangas/delete.js";
