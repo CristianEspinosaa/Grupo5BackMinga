@@ -6,6 +6,7 @@ import categoryRouter from './categories.js';
 import mangaRouter from './mangas.js';
 import chapterRouter from './chapters.js';
 import commentRouter from './comments.js';
+import reactionRouter from "./reactions.js";
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/categories', categoryRouter);
 router.use('/mangas', mangaRouter);
 router.use('/chapters', chapterRouter);
 router.use('/comments', commentRouter);
+router.use('/reactions', reactionRouter);
 
 export default router;

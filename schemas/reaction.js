@@ -28,6 +28,7 @@ const schema = joi.object({
 
     reaction: joi
         .string()
+        .valid('like', 'dislike', 'surprised', 'love')
         .min(1)
         .max(50)
         .required()
