@@ -41,6 +41,43 @@ let allMangas = async (req, res, next) => {
     }
 };
 
+let mangaById = async (req, res, next) => {
+    try {
+        let mangaId = req.params.id;
+        let manga = await Manga.findById(mangaId)
+            .select('title cover_photo description -_id')            
+            .populate('company_id', 'name -_id')
+            .populate('category_id', 'name -_id');
+
+        if (manga) {
+            let filteredManga = {
+                ...manga.toObject(),
+                author_id: manga.author_id || undefined,
+                company_id: manga.company_id || undefined,
+            };
+
+            Object.keys(filteredManga).forEach(key => {
+                if (filteredManga[key] === undefined) {
+                    delete filteredManga[key];
+                }
+            });
+
+            return res.status(200).json({
+                success: true,
+                message: "Manga found successfully",
+                response: filteredManga,
+            });
+        } else {
+            return res.status(404).json({
+                response: "Manga not found with the specified ID",
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 let mangaByAuthorId = async (req, res, next) => {
     try {
         let search = { author_id: req.params.id };
@@ -89,7 +126,7 @@ let mangaByCompanyId = async (req, res, next) => {
         }
 
         let mangas = await Manga.find(search)
-            .select('title cover_photo category_id company_id')
+            .select('title cover_photo category_id company_id')            
             .populate('company_id', 'name -_id')
             .populate('category_id', 'name -_id')
             .sort({ title: 1 })
@@ -113,4 +150,4 @@ let mangaByCompanyId = async (req, res, next) => {
     }
 };
 
-export { allMangas, mangaByAuthorId, mangaByCompanyId };
+export { allMangas, mangaById, mangaByAuthorId, mangaByCompanyId };

@@ -2,12 +2,12 @@ import Category from "../../models/Category.js";
 
 let allCategories = async (req, res, next) => {
     try {
-        let all = await Category.find();
+        let all = await Category.find().select('-admin_id');
 
         return res.status(200).json({
             success: true,
             message: "Categories retrieved successfully.",
-            response: all,
+            response: all
         });
     } catch (error) {
         next(error);
