@@ -4,7 +4,7 @@ import { create, createMany } from "../controllers/authors/create.js";
 import { updateAuthor } from "../controllers/authors/update.js";
 import { deleteAuthor } from "../controllers/authors/delete.js";
 import validator from "../middlewares/validator.js";
-import schema from "../schemas/authors.js";
+import schema from "../schemas/author.js";
 
 const router = Router()
 

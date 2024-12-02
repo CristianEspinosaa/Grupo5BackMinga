@@ -5,6 +5,7 @@ import companyRouter from './companies.js';
 import categoryRouter from './categories.js';
 import mangaRouter from './mangas.js';
 import chapterRouter from './chapters.js';
+import commentRouter from './comments.js';
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use('/companies', companyRouter);
 router.use('/categories', categoryRouter);
 router.use('/mangas', mangaRouter);
 router.use('/chapters', chapterRouter);
+router.use('/comments', commentRouter);
 
 export default router;
