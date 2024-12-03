@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { allUsers, userById } from "../controllers/users/read.js";
-import { register, registerMany } from "../controllers/users/register.js";
+import { register } from "../controllers/users/register.js";
 import { updateUser } from "../controllers/users/update.js";
 import { deleteUser } from "../controllers/users/delete.js";
 import passport from "../middlewares/passport.js";

@@ -2,26 +2,18 @@ import jwt from "jsonwebtoken";
 
 export default (req, res, next) => {
   try {
-    const email =
-      req.user?.email || // Email desde req.user
-      req.body?.email || // Email desde req.body
-      req.user?.profile?.emails?.[0]?.value; // Email desde Google (passport)
+    const { user, body } = req;
+    const { id, email: userEmail, role, profile } = user || {};
+    const { userId: bodyUserId, email: bodyEmail } = body || {};
+    const profileEmail = profile?.emails?.[0]?.value;
 
-    const role = req.user?.role || req.body?.role;
-
-    const userId =
-      req.user?.id || // ID desde req.user
-      req.body?.userId || // ID desde req.body
-      (req.user?.email ? req.user.email : req.user?.profile?.emails?.[0]?.value); // Fallback en caso de Google
+    const email = userEmail || bodyEmail || profileEmail;
+    const userId = id || bodyUserId || profileEmail;
 
     const token = jwt.sign(
-      {
-        email,
-        role,
-        userId,
-      },
+      { email, role, userId },
       process.env.SECRET,
-      { expiresIn: 60 * 60 * 2 } // Expira en 2 horas
+      { expiresIn: 60 * 60 * 2 }
     );
 
     req.token = token;
