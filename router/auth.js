@@ -7,6 +7,7 @@ import validatePassword from "../middlewares/validatePassword.js";
 import generateToken from "../middlewares/generateToken.js";
 import passport from "../middlewares/passport.js";
 import passportGoogle from "../middlewares/passportGoogle.js";
+import createHash from "../middlewares/createHash.js";
 
 const routerAuth = Router();
 
