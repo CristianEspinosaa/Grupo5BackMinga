@@ -3,7 +3,7 @@ import { allCategories, categoryById } from "../controllers/categories/read.js";
 import { create, createMany } from "../controllers/categories/create.js";
 import { updateCategory } from "../controllers/categories/update.js";
 import { deleteCategory } from "../controllers/categories/delete.js";
-import validator from "../middlewares/validator.js";
+import { validator, validatorParams } from "../middlewares/validator.js";
 import schema from "../schemas/category.js";
 
 const router = Router();

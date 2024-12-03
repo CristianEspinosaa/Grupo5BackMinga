@@ -3,7 +3,7 @@ import { allCompanies, companyById } from "../controllers/companies/read.js";
 import { create, createMany } from "../controllers/companies/create.js";
 import { updateCompany } from "../controllers/companies/update.js";
 import { deleteCompany } from "../controllers/companies/delete.js";
-import validator from "../middlewares/validator.js";
+import { validator, validatorParams } from "../middlewares/validator.js";
 import schema from "../schemas/company.js";
 
 const router = Router()

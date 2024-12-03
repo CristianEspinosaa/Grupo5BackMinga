@@ -3,7 +3,7 @@ import { create, createMany } from "../controllers/comments/create.js";
 import { allComments, commentByChapterId, commentById } from "../controllers/comments/read.js";
 import { updateComment } from "../controllers/comments/update.js";
 import { deleteComment } from "../controllers/comments/delete.js";
-import validator from "../middlewares/validator.js";
+import { validator, validatorParams } from "../middlewares/validator.js";
 import schema from "../schemas/comment.js";
 
 const router = Router();

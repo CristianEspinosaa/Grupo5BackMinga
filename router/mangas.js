@@ -3,7 +3,7 @@ import { create, createMany } from "../controllers/mangas/create.js";
 import { allMangas, mangaById, mangaByAuthorId, mangaByCompanyId } from "../controllers/mangas/read.js";
 import { updateManga } from "../controllers/mangas/update.js";
 import { deleteManga } from "../controllers/mangas/delete.js";
-import validator from "../middlewares/validator.js";
+import { validator, validatorParams } from "../middlewares/validator.js";
 import schema from "../schemas/manga.js";
 
 const router = Router()
