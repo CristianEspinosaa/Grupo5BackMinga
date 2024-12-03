@@ -21,7 +21,7 @@ export default passport.use(
                         email: profile.emails[0].value,
                         photo: profile.photos[0].value,
                         online: false,
-                        role: "User",
+                        role: 0,
                         password: profile.id
                     })
                     await user.save()

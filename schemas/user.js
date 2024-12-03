@@ -47,7 +47,7 @@ const userSchema = joi.object({
 
     online: joi
         .boolean()
-        .default(false)
+        .default(false) // login direct
         .messages({
             'boolean.base': 'The online status must be true or false',
         }),

@@ -7,9 +7,11 @@ import mangaRouter from './mangas.js';
 import chapterRouter from './chapters.js';
 import commentRouter from './comments.js';
 import reactionRouter from "./reactions.js";
+import authRouter from "./auth.js";
 
 const router = Router();
 
+router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/authors', authorRouter);
 router.use('/companies', companyRouter);

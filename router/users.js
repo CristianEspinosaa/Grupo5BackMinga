@@ -9,6 +9,7 @@ import accountExists from "../middlewares/accountExists.js";
 import createHash from "../middlewares/createHash.js";
 import generateToken from "../middlewares/generateToken.js";
 import isAuthorized from "../middlewares/isAuthorized.js";
+import emailExists from "../middlewares/emailExists.js";
 import schema from "../schemas/user.js";
 
 const router = Router()
@@ -18,7 +19,7 @@ router.get('/id/:id', passport.authenticate('jwt', { session: false }), isAuthor
 
 router.post('/register', validator(schema), accountExists, createHash, generateToken, register)
 
-router.put('/update/:id', passport.authenticate('jwt', { session: false }), isAuthorized, validator(schema), updateUser);
+router.put('/update/:id', passport.authenticate('jwt', { session: false }), isAuthorized, validator(schema), emailExists, createHash, updateUser);
 
 router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), isAuthorized, deleteUser);
 
