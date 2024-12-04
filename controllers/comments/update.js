@@ -1,27 +1,26 @@
-import Comment from '../../models/Comment.js';
+import Comment from "../../models/Comment.js";
 
 let updateComment = async (req, res, next) => {
     try {
-        let { _id } = req.body;
-        let commentData = req.body;
-        
-        let updatedComment = await Comment.findByIdAndUpdate(_id, commentData, { 
-            new: true, 
-            runValidators: true 
-        });
+        const { id } = req.params; 
+        const { message } = req.body;
 
-        if (!updatedComment) {
+        const commentToUpdate = await Comment.findById(id);
+
+        if (!commentToUpdate) {
             return res.status(404).json({
                 success: false,
-                message: 'Comment not found.',
-                response: null,
+                message: "Comment not found.",
             });
         }
 
+        commentToUpdate.message = message || commentToUpdate.message;
+        await commentToUpdate.save();
+
         return res.status(200).json({
             success: true,
-            message: 'Comment updated successfully.',
-            response: updatedComment,
+            message: "Comment updated successfully.",
+            response: commentToUpdate,
         });
     } catch (error) {
         next(error);

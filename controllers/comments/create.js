@@ -1,13 +1,35 @@
+import Author from '../../models/Author.js';
+import Company from '../../models/Company.js';
 import Comment from '../../models/Comment.js';
 
 let create = async (req, res, next) => {
     try {
-        let comment = req.body;
-        let newComment = await Comment.create(comment);
+        const userId = req.user.id;
+        const { chapter_id, message } = req.body;
+        
+        const author = await Author.findOne({ user_id: userId });
+        const company = await Company.findOne({ user_id: userId });
+
+        if (!author && !company) {
+            return res.status(403).json({
+                success: false,
+                message: "User must be either an author or part of a company.",
+            });
+        }
+
+        const commentData = {
+            chapter_id,
+            message,
+            author_id: author ? author._id : null,
+            company_id: company ? company._id : null,
+        };
+
+        const newComment = await Comment.create(commentData);
+
         return res.status(201).json({
             success: true,
             message: "Comment created successfully.",
-            response: newComment
+            response: newComment,
         });
     } catch (error) {
         next(error);

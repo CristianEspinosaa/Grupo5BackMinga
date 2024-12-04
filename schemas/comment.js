@@ -3,7 +3,7 @@ import objectId from 'joi-objectid';
 joi.objectId = objectId(joi);
 
 const schema = joi.object({
-    chapterid_: joi
+    chapter_id: joi
         .objectId()
         .required()
         .messages({
@@ -16,14 +16,14 @@ const schema = joi.object({
         .objectId()
         .allow(null)
         .messages({
-            'invalid': 'author_id must be a valid ObjectId',
+            "invalid": "author_id must be a valid ObjectId",
         }),
 
     company_id: joi
         .objectId()
         .allow(null)
         .messages({
-            'invalid': 'company_id must be a valid ObjectId',
+            "invalid": "company_id must be a valid ObjectId",
         }),
 
     message: joi
