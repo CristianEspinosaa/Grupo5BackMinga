@@ -2,8 +2,8 @@ import Comment from '../../models/Comment.js';
 
 let updateComment = async (req, res, next) => {
     try {
-        let { _id } = req.body; // Espera el ID en el cuerpo de la solicitud
-        let commentData = req.body; // Los datos de la actualización
+        let { _id } = req.body;
+        let commentData = req.body;
         
         let updatedComment = await Comment.findByIdAndUpdate(_id, commentData, { 
             new: true, 
