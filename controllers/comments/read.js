@@ -16,19 +16,19 @@ let allComments = async (req, res, next) => {
 
 let commentById = async (req, res, next) => {
     try {
-        let valueID = req.params.valueID;
-        let result = await Comment.findById(valueID);
+        let commentId = req.params.id;
+        let comment = await Comment.findById(commentId);
 
-        if (result) {
+        if (comment) {
             return res.status(200).json({
                 success: true,
                 message: 'Comment found successfully',
-                response: result,
+                response: comment,
             });
         } else {
             return res.status(404).json({
                 success: false,
-                message: `No comment found with ID: ${valueID}`,
+                message: `No comment found with ID: ${commentId}`,
                 response: null,
             });
         }
@@ -39,8 +39,8 @@ let commentById = async (req, res, next) => {
 
 let commentByChapterId = async (req, res, next) => {
     try {
-        let query = { chapter_id: req.params.chapterId };
-        let comments = await Comment.find(query);
+        let query = { chapter_id: req.params.id };
+        let comments = await Comment.find(query);        
 
         if (comments.length > 0) {
             return res.status(200).json({
@@ -48,9 +48,13 @@ let commentByChapterId = async (req, res, next) => {
                 message: "Comments retrieved successfully.",
                 response: comments,
             });
-        }
-
-        return next(createError(404, 'No comments found for this chapter.'));
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: "No comments found in this chapter",
+                response: null,
+            });
+        }        
     } catch (error) {
         next(error);
     }

@@ -1,22 +1,24 @@
 import { Router } from "express";
-import { create, createMany } from "../controllers/comments/create.js";
+import { create } from "../controllers/comments/create.js";
 import { allComments, commentByChapterId, commentById } from "../controllers/comments/read.js";
 import { updateComment } from "../controllers/comments/update.js";
 import { deleteComment } from "../controllers/comments/delete.js";
-import { validator, validatorParams } from "../middlewares/validator.js";
+import { validator } from "../middlewares/validator.js";
+import passport from "../middlewares/passport.js";
+import commentAuth from "../middlewares/commentAuth.js";
 import schema from "../schemas/comment.js";
+
 
 const router = Router();
 
-router.get('/all', allComments);
-router.get('/byChapter/:chapterId', commentByChapterId);
-router.get('/id/:id', commentById);
+router.get('/all', passport.authenticate('jwt', { session: false }), allComments);
+router.get('/byChapter/:id', passport.authenticate('jwt', { session: false }), commentByChapterId);
+router.get('/id/:id', passport.authenticate('jwt', { session: false }), commentById);
 
-router.post('/create', validator(schema), create);
-router.post('/createMany', createMany);
+router.post('/create', passport.authenticate('jwt', { session: false }), validator(schema), create);
 
-router.put('/update/:id', validator(schema), updateComment);
+router.put('/update/:id', passport.authenticate('jwt', { session: false }), validator(schema), commentAuth, updateComment);
 
-router.delete('/delete/:id', deleteComment);
+router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), commentAuth, deleteComment);
 
 export default router;

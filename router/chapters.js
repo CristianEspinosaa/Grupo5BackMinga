@@ -1,22 +1,23 @@
 import { Router } from "express";
-import { create, createMany } from "../controllers/chapters/create.js";
+import { create } from "../controllers/chapters/create.js";
 import { allChapters, chapterByMangaId, chapterById } from "../controllers/chapters/read.js";
 import { updateChapter } from "../controllers/chapters/update.js";
 import { deleteChapter } from "../controllers/chapters/delete.js";
-import { validator, validatorParams } from "../middlewares/validator.js";
+import { validator } from "../middlewares/validator.js";
+import passport from "../middlewares/passport.js";
+import chapterAuth from "../middlewares/chapterAuth.js";
 import schema from "../schemas/chapter.js";
 
 const router = Router()
 
-router.get('/all', allChapters)
-router.get('/byManga/:id', chapterByMangaId)
-router.get('/id/:id', chapterById)
+router.get('/all', passport.authenticate('jwt', { session: false }), allChapters)
+router.get('/byManga/:id', passport.authenticate('jwt', { session: false }), chapterByMangaId)
+router.get('/id/:id', passport.authenticate('jwt', { session: false }), chapterById)
 
-router.post('/create', validator(schema), create)
-router.post('/createMany/', createMany)
+router.post('/create', passport.authenticate('jwt', { session: false }), validator(schema), create)
 
-router.put('/update/:id', validator(schema), updateChapter)
+router.put('/update/:id', passport.authenticate('jwt', { session: false }), validator(schema), chapterAuth, updateChapter)
 
-router.delete('/delete/:id', deleteChapter)
+router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), chapterAuth, deleteChapter)
 
 export default router

@@ -44,9 +44,12 @@ let chapterByMangaId = async (req, res, next) => {
                 message: "Chapters retrieved successfully.",
                 response: { chapters, count },
             });
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: "Chapters not found",
+            });
         }
-
-        return next(createError(404, 'No chapters found.'));
     } catch (error) {
         next(error);
     }
