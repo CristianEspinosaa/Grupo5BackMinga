@@ -7,7 +7,8 @@ let allUsers = async (req, res, next) => {
         let formattedUsers = all.map(user => ({
             id: user._id,
             email: user.email,
-            photo: user.photo
+            photo: user.photo,
+            active: user.is_active
         }));
 
         return res.status(200).json({

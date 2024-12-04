@@ -73,12 +73,9 @@ const schema = joi.object({
 
     admin_id: joi
         .objectId()
-        .optional()
         .messages({
-            'string.empty': 'An admin ID is required',
-            'any.required': 'An admin ID is required',
-            'invalid': 'admin_id must be a valid ObjectId'
-        })
+            'invalid': 'user_id is not an objectId'
+        }),
 });
 
 export default schema

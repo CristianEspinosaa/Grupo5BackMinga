@@ -1,4 +1,5 @@
 import { Router } from "express";
+import adminRouter from './admin.js'; 
 import userRouter from './users.js';
 import authorRouter from './authors.js';
 import companyRouter from './companies.js';
@@ -12,6 +13,7 @@ import authRouter from "./auth.js";
 const router = Router();
 
 router.use('/auth', authRouter);
+router.use('/dashboard', adminRouter);
 router.use('/users', userRouter);
 router.use('/authors', authorRouter);
 router.use('/companies', companyRouter);

@@ -47,23 +47,15 @@ const schema = joi.object({
             'any.required': 'A photo is required',
             'string.uri': 'The photo must be a valid URL'
         }),
-
+        
     user_id: joi
         .objectId()
-        .required()
         .messages({
-            'string.empty': 'A user ID is required',
-            'any.required': 'A user ID is required',
-            'invalid': 'user_id must be a valid ObjectId'
+            'invalid': 'user_id is not an objectId'
         }),
 
     active: joi
         .boolean()
-        .required()
-        .messages({
-            'boolean.base': 'The active status must be true or false',
-            'any.required': 'The active status is required'
-        })
 });
 
 export default schema;

@@ -8,6 +8,7 @@ let schema = new Schema({
     photo: { type: String, required: true },
     role: { type: Number, default: 0 }, // 0: User, 1: Author, 2: Companie, 3: Admin
     online: { type: Boolean, required: true, default: true },
+    is_active: { type: Boolean, required: true, default: true },    
 }, {
     timestamps: true
 });

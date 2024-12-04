@@ -1,13 +1,27 @@
 import Category from '../../models/Category.js';
+import User from '../../models/User.js';
 
 let create = async (req, res, next) => {
     try {
-        let category = req.body;
-        let newCategory = await Category.create(category);
+        const adminId = req.user.id;
+
+        let user = await User.findById(adminId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "Admin user not found.",
+            });
+        }
+
+        let categoryData = req.body;
+        categoryData.admin_id = adminId;
+
+        let newCategory = await Category.create(categoryData);
+
         return res.status(201).json({
             success: true,
             message: "Category created successfully.",
-            response: newCategory
+            response: newCategory,
         });
     } catch (error) {
         next(error);

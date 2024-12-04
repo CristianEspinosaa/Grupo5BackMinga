@@ -47,9 +47,15 @@ const userSchema = joi.object({
 
     online: joi
         .boolean()
-        .default(false) // login direct
+        .default(true)
         .messages({
             'boolean.base': 'The online status must be true or false',
+        }),
+    is_active: joi
+        .boolean()
+        .default(true)
+        .messages({
+            'boolean.base': 'Is active status must be true or false',
         }),
 });
 

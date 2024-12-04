@@ -5,8 +5,8 @@ let updateCategory = async (req, res, next) => {
         const { id } = req.params;
         const categoryData = req.body;
         let updatedCategory = await Category.findByIdAndUpdate(id, categoryData, {
-            new: true, // Retorna el documento actualizado
-            runValidators: true, // Ejecuta validaciones definidas en el modelo
+            new: true, 
+            runValidators: true, 
         });
 
         if (!updatedCategory) {
