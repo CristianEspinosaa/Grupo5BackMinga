@@ -5,7 +5,7 @@ joi.objectId = objectId(joi);
 const schema = joi.object({
     manga_id: joi
         .objectId()
-        .required()
+        .optional()
         .messages({
             'string.empty': 'A manga ID is required',
             'any.required': 'A manga ID is required',

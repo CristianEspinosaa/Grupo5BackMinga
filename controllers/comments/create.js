@@ -6,16 +6,9 @@ let create = async (req, res, next) => {
     try {
         const userId = req.user.id;
         const { chapter_id, message } = req.body;
-        
+
         const author = await Author.findOne({ user_id: userId });
         const company = await Company.findOne({ user_id: userId });
-
-        if (!author && !company) {
-            return res.status(403).json({
-                success: false,
-                message: "User must be either an author or part of a company.",
-            });
-        }
 
         const commentData = {
             chapter_id,
@@ -23,7 +16,7 @@ let create = async (req, res, next) => {
             author_id: author ? author._id : null,
             company_id: company ? company._id : null,
         };
-
+        
         const newComment = await Comment.create(commentData);
 
         return res.status(201).json({

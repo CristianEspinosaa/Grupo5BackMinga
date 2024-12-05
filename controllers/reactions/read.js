@@ -1,60 +1,30 @@
-import Reaction from "../../models/Reaction.js";
+import Reaction from '../../models/Reaction.js';
+import Author from '../../models/Author.js';
+import Company from '../../models/Company.js';
 
-let allReactions = async (req, res, next) => {
+let getUserFavorites = async (req, res, next) => {
     try {
-        let all = await Reaction.find();
-
+        const userId = req.user.id;        
+        const author = await Author.findOne({ user_id: userId });
+        const company = await Company.findOne({ user_id: userId });
+        
+        const reactions = await Reaction.find({
+            $or: [
+                { author_id: author ? author._id : null },
+                { company_id: company ? company._id : null },
+                { user_id: userId }
+            ],
+            reaction: true
+        }).populate("manga_id", "title cover_photo -_id");
+        
         return res.status(200).json({
             success: true,
-            message: "Reactions retrieved successfully",
-            response: all,
+            message: "Mangas with positive reactions (likes) retrieved successfully.",
+            response: reactions.map(reaction => reaction.manga_id),
         });
     } catch (error) {
         next(error);
     }
 };
 
-let reactionById = async (req, res, next) => {
-    try {
-        let valueID = req.params.valueID;
-        let result = await Reaction.findById(valueID);
-
-        if (result) {
-            return res.status(200).json({
-                success: true,
-                message: 'Reaction found successfully',
-                response: result,
-            });
-        } else {
-            return res.status(404).json({
-                success: false,
-                message: `No reaction found with ID: ${valueID}`,
-                response: null,
-            });
-        }
-    } catch (error) {
-        next(error);
-    }
-};
-
-let reactionsByMangaId = async (req, res, next) => {
-    try {
-        let query = { manga_id: req.params.mangaId };
-        let reactions = await Reaction.find(query);
-
-        if (reactions.length > 0) {
-            return res.status(200).json({
-                success: true,
-                message: "Reactions retrieved successfully.",
-                response: reactions,
-            });
-        }
-
-        return next(createError(404, 'No reactions found for this manga.'));
-    } catch (error) {
-        next(error);
-    }
-};
-
-
-export { allReactions, reactionById, reactionsByMangaId };
+export { getUserFavorites };

@@ -3,25 +3,11 @@ import { Schema, model } from "mongoose";
 let collection = 'reactions';
 
 let schema = new Schema({
-    manga_id: { 
-        type: Schema.Types.ObjectId, 
-        ref: 'Chapter', 
-        required: true 
-    },
-    author_id: { 
-        type: Schema.Types.ObjectId, 
-        ref: 'Author', 
-        required: false 
-    },
-    company_id: { 
-        type: Schema.Types.ObjectId, 
-        ref: 'Company', 
-        required: false 
-    },
-    reaction: { 
-        type: String, 
-        required: true 
-    },
+    manga_id: { type: Schema.Types.ObjectId, ref: 'mangas', required: true },
+    user_id: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+    author_id: { type: Schema.Types.ObjectId, ref: 'authors', required: false },
+    company_id: { type: Schema.Types.ObjectId, ref: 'companies', required: false },
+    reaction: { type: Boolean, required: true }, // true = Like, false = Dislike
 }, {
     timestamps: true
 });
