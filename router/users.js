@@ -10,6 +10,7 @@ import createHash from "../middlewares/createHash.js";
 import generateToken from "../middlewares/generateToken.js";
 import isAuthorized from "../middlewares/isAuthorized.js";
 import emailExists from "../middlewares/emailExists.js";
+import { userExists } from "../controllers/users/read.js";
 import schema from "../schemas/user.js";
 
 const router = Router()
@@ -22,5 +23,7 @@ router.post('/register', validator(schema), accountExists, createHash, generateT
 router.put('/update/:id', passport.authenticate('jwt', { session: false }), isAuthorized, validator(schema), emailExists, createHash, updateUser);
 
 router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), isAuthorized, deleteUser);
+
+router.get('/validateToken', passport.authenticate('jwt', { session: false }), userExists)
 
 export default router
