@@ -5,15 +5,11 @@ let allAuthors = async (req, res, next) => {
         let authors = await Author.find();
 
         if (authors.length > 0) {
-            let activeAuthors = authors.filter(author => author.active);
-            let inactiveAuthors = authors.filter(author => !author.active);
-
             return res.status(200).json({
                 success: true,
                 message: "Authors found successfully",
                 response: {
-                    activeAuthors,
-                    inactiveAuthors
+                    authors
                 }
             });
         } else {

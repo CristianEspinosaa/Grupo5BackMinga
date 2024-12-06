@@ -11,6 +11,7 @@ import checkUser from "../middlewares/checkUser.js";
 
 const routerAuth = Router();
 
+routerAuth.post('/signup', accountNotExists, validatePassword, checkUser, generateToken, signIn);
 routerAuth.post('/signin', accountNotExists, validatePassword, checkUser, generateToken, signIn);
 routerAuth.post('/signout', passport.authenticate('jwt', { session: false }), signOut);
 routerAuth.get('/signin/google', passportGoogle.authenticate('google', { session: false, scope: ['profile', 'email'] }));

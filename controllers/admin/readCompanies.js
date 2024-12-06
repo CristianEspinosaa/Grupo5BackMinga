@@ -5,15 +5,11 @@ let allCompanies = async (req, res, next) => {
         let companies = await Company.find();
 
         if (companies.length > 0) {
-            let activeCompanies = companies.filter(company => company.active);
-            let inactiveCompanies = companies.filter(company => !company.active);
-
             return res.status(200).json({
                 success: true,
                 message: "Companies found successfully",
                 response: {
-                    activeCompanies,
-                    inactiveCompanies
+                    companies
                 }
             });
         } else {

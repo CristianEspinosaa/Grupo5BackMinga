@@ -4,14 +4,15 @@ let register = async (req, res, next) => {
     try {
         let user = req.body;
         let newUser = await User.create(user);
-
-        const token = req.token;
-
         return res.status(201).json({
             success: true,
             message: "User created successfully.",
-            response: newUser,
-            token: token
+            user: {
+                email: newUser.email,
+                role: newUser.role,
+                photo: newUser.photo
+            },
+            token: req.token
         });
     } catch (error) {
         next(error);

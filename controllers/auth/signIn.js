@@ -9,7 +9,7 @@ export default async (req, res, next) => {
 
         return res.status(200).json({
             success: true,
-            message: 'Signed in prueba',
+            message: 'Logging Ok',
             user: {
                 email: req.user.email,
                 role: req.user.role,
