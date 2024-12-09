@@ -22,5 +22,6 @@ router.use('/mangas', mangaRouter);
 router.use('/chapters', chapterRouter);
 router.use('/comments', commentRouter);
 router.use('/reactions', reactionRouter);
+router.use('/donate', donateRouter)
 
 export default router;
