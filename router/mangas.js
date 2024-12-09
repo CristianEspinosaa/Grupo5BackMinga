@@ -11,7 +11,7 @@ import schema from "../schemas/manga.js";
 
 const router = Router()
 
-router.get('/all', passport.authenticate('jwt', { session: false }), allMangas);
+router.get('/all/', passport.authenticate('jwt', { session: false }), allMangas);
 router.get('/id/:id', passport.authenticate('jwt', { session: false }), mangaById);
 router.get('/byAuthor/:id', passport.authenticate('jwt', { session: false }), mangaByAuthorId)
 router.get('/byCompany/:id', passport.authenticate('jwt', { session: false }), mangaByCompanyId)

@@ -7,16 +7,24 @@ let allMangas = async (req, res, next) => {
         let limit = req.query.category_id || req.query.title ? 10 : 6;
         let skip = (page - 1) * limit;
 
+        // Filtrar por categoría
         if (req.query.category_id) {
             search.category_id = { $in: req.query.category_id.split(',') };
         }
+
+        // Filtrar por título
         if (req.query.title) {
             search.title = new RegExp(req.query.title.trim(), 'i');
         }
 
+        // Filtrar por autor
+        if (req.query.author_id) {
+            search.author_id = req.query.author_id; // Asume que el autor se envía como un ID exacto
+        }
+
         let mangas = await Manga.find(search)
             .select('title cover_photo _id')
-            .populate('category_id', 'name -_id')
+            .populate('category_id', 'name _id')
             .sort({ title: 1 })
             .skip(skip)
             .limit(limit);
@@ -80,8 +88,15 @@ let mangaById = async (req, res, next) => {
 
 let mangaByAuthorId = async (req, res, next) => {
     try {
+        if (!req.params.id) {
+            return res.status(400).json({
+                success: false,
+                message: "Author ID is required.",
+            });
+        }
+
         let search = { author_id: req.params.id };
-        let page = parseInt(req.query.page) || 1;
+        let page = Math.max(parseInt(req.query.page) || 1, 1); // Página mínima 1
         let limit = req.query.category_id ? 10 : 6;
         let skip = (page - 1) * limit;
 
@@ -89,9 +104,10 @@ let mangaByAuthorId = async (req, res, next) => {
             search.category_id = { $in: req.query.category_id.split(',') };
         }
 
+        // Consulta a la base de datos
         let mangas = await Manga.find(search)
             .select('title cover_photo category_id author_id')
-            .populate('author_id', 'name last_name -_id')
+            .populate('author_id', 'name last_name _id')
             .populate('category_id', 'name -_id')
             .sort({ title: 1 })
             .skip(skip)
@@ -104,13 +120,14 @@ let mangaByAuthorId = async (req, res, next) => {
                 response: mangas,
             });
         }
+
         return res.status(404).json({
             success: false,
-            message: "Mangas not found.",
+            message: "No mangas found for this author.",
         });
 
     } catch (error) {
-        next(error); 
+        next(error);
     }
 };
 
