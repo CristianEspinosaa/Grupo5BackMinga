@@ -4,7 +4,7 @@ let allMangas = async (req, res, next) => {
     try {
         let search = {};
         let page = parseInt(req.query.page) || 1;
-        let limit = req.query.category_id || req.query.title ? 10 : 6;
+        let limit = req.query.category_id || req.query.title ? 20 : 6;
         let skip = (page - 1) * limit;
 
         // Filtrar por categoría
@@ -54,8 +54,10 @@ let mangaById = async (req, res, next) => {
         let mangaId = req.params.id;
         let manga = await Manga.findById(mangaId)
             .select('title cover_photo description -_id')            
+            .populate('category_id', 'name -_id')
             .populate('company_id', 'name -_id')
-            .populate('category_id', 'name -_id');
+            .populate('author_id', 'name -_id');
+            
 
         if (manga) {
             let filteredManga = {
