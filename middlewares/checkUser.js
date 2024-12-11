@@ -4,10 +4,10 @@ const checkUser = async (req, res, next) => {
     try {
         let user = await User.findOne({ email: req.body.email || req.user.email });
         
-        if (!user.is_active) {
+        if (!user.is_active) {            
             return res.status(403).json({
                 success: false,
-                message: "Your account is inactive. Please contact an administrator."
+                message: "Your account is inactive. Please contact a manager."
             });
         }
 
